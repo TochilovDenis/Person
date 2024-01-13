@@ -1,0 +1,185 @@
+﻿// Подключение библиотеки iostream для ввода/вывода данных
+#include <iostream>
+// Подключение библиотеки sstream для работы со строками
+#include <sstream>
+// Подключение библиотеки ctime для работы с датой и временем
+#include <ctime> 
+// Подключение библиотеки vector для работы с динамическими массивами
+#include <vector>
+// Подключение библиотеки Windows.h для использования функций Windows
+#include <Windows.h>
+// Использование пространства имен std
+using namespace std;
+
+// Использование стандартного пространства имен
+using namespace std;
+
+// Объявление функции для установки языка консоли
+int langConsole(int);
+
+// Обьявление массивы имён мужчин и женщин
+string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
+string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
+
+// Обьявление массив фамилий мужчин
+string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
+
+// Объявление перечисления для определения пола человека
+enum GenderType{
+	male, // Мужчина
+	female, // Женщина
+	totalGender // Количество пола
+};
+
+// Объявление массива строк для обозначения пола
+string GenderString[totalGender] = { "Мужчина", "Женщина" };
+
+// Объявление структуры для хранения информации о человеке
+struct Human { 
+	// Определение переменных структуры
+	string mSurname { "" }; // Фамилия
+	string mName{ "" };		// Имя
+	double mWeight { 0.0 }; // Вес
+	double mHeight{ 0.0 };	// Рост
+	GenderType mGender{ };	// Пол
+
+	// Определение методов-getter для хранения значений переменных
+	string Surname() const { return mSurname; }
+	string Name() const { return mName; }
+	double Weight() const { return mWeight; }
+	double Height() const { return mHeight; }
+	GenderType Gender() const { return mGender; }
+
+	// Определение методов-setter для установки значений переменных
+	string Surname(string value) { return mSurname = value; }
+	string Name(string value) { return mName = value; }
+	double Weight(double value) { return mWeight = value; }
+	double Height(double value) { return mHeight = value; }
+	GenderType Gender(GenderType value) { return mGender = value; }
+
+	// Методы для проверки пола:
+	// Проверка, является ли человек мужчиной
+	bool IsMale() const { return mGender == male; }
+	// Проверка, является ли человек женщиной
+	bool IsFemale() const { return mGender == female; }
+
+	// Метод для преобразования числа с плавающей точкой в строку
+    string ValueString(double value) const {
+		// Создание объекта ostringstream
+		ostringstream ss;
+		// Запись значения value в ss
+		ss << value;
+		// Преобразование содержимого ss в строку и возвращение этой строки
+		return ss.str();
+	}
+
+	// Функция для получения информации о человеке в виде строки
+	string GetInfoPerson() const {
+		// Возвращает строку, состоящую из фамилии, имени, веса, роста и пола человека
+		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см | Пол: " + GenderString[Gender()];
+	}
+
+	// Функция для вывода информации о человеке
+	void PrintInfoPerson() const {
+		// Вывод информации о человеке, полученной с помощью метода GetInfoPerson()
+		cout << GetInfoPerson();
+	}
+} h;
+
+// Объявление функции для проверки ввода пользователя
+int Put(int);
+// Объявление функции для генерации случайного объекта Human
+Human GeneratedHuman();
+// Объявление функции для заполнения вектора случайно сгенерированными объектами Human
+void fillHumanArray(vector<Human>& , int);
+// Объявление функции для печати информации о всех объектах Human в векторе
+void printHumanArray(vector<Human>& humanArray);
+
+
+int main()
+{
+	// Инициализация генератора случайных чисел
+	srand(time(0));
+
+	// Установка языка консоли
+	langConsole(1251);
+
+	// Получение числа людей от пользователя
+	int n = Put(0);
+
+	// Создание вектора для хранения людей
+	vector<Human> humans;
+	// Заполнение вектора случайными людьми
+	fillHumanArray(humans, n);
+
+	// Вывод информации о людях
+	printHumanArray(humans);
+
+	return 0;
+}
+
+// Реализация функции для установки кодовой страницы консоли
+int langConsole(int codePage) {
+	// Установка кодовой страницы ввода для консоли
+	SetConsoleCP(codePage);
+	// Установка кодовой страницы вывода для консоли
+	SetConsoleOutputCP(codePage);
+	// Возвращение установленной кодовой страницы
+	return codePage;
+}
+
+// Реализация функции для проверки ввода пользователя
+int Put(int n) {
+	// Цикл do-while, который будет повторяться до тех пор, пока пользователь не введет валидное число
+	do {
+		cout << "Введите целое число от 10 до 100: ";
+		cin >> n;
+	} while (n < 10 || n > 100);
+	return n;
+}
+
+// Реализация функции для генерации случайного объекта Human
+Human GeneratedHuman() {
+
+	// Генерация случайного пола (мужской или женский)
+	GenderType gender = rand() % totalGender ? male : female;
+
+	// Генерация случайной фамилии. Если пол мужской, то берется из списка мужских фамилий, если женский - из списка женских
+	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "a";
+
+	// Генерация случайного имени. Если пол мужской, то берется из списка мужских имен, если женский - из списка женских
+	string name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];
+
+	// Генерация случайного веса (от 40 до 200 кг)
+	double weight = rand() % 160 + 40;
+
+	// Генерация случайного роста (от 110 до 220 см)
+	double height = rand() % 100 + 110;
+
+	// Создание нового объекта типа Human с сгенерированными значениями
+	Human hGen{ surname, name, weight, height, gender };
+
+	// Возвращение созданного объекта
+	return hGen;
+}
+
+// Реализация функции для заполнения вектора случайно сгенерированными объектами Human.
+void fillHumanArray(vector<Human>& humanArray, int size)
+{
+	// Цикл от 0 до size (не включая size
+	for (int i = 0; i < size; i++) {
+		// Добавляет в конец вектора новый элемент, который является результатом вызова функции GeneratedHuman()
+	    // Этот новый элемент будет случайным объектом типа Human
+		humanArray.push_back(GeneratedHuman());
+	}
+}
+
+// Реализация функции для печати информации о всех объектах Human в векторе
+void printHumanArray(vector<Human>& humanArray)
+{
+	// Цикл по всем элементам вектора
+	for (Human human : humanArray) {
+	   // Выводит информацию о человеке, полученную с помощью метода GetInfoPerson()
+	   cout << human.GetInfoPerson() << endl;
+	}
+}
