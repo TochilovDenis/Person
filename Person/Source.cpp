@@ -2,12 +2,22 @@
 
 #include <iostream>
 #include <sstream>
+#include <ctime>
 #include <Windows.h>
 using namespace std;
 
 int langConsole(int);
 
-enum GenderType{male, female, totalGender};
+string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
+string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
+string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
+
+enum GenderType{
+	male, 
+	female,
+
+	totalGender
+};
 string GenderString[2] = { "Мужчина", "Женщина" };
 
 struct Human {
@@ -51,22 +61,31 @@ struct Human {
 	}
 } h;
 
+void GeneratedHuman();
+
 int main()
 {
 	langConsole(1251);
-
-	h = { "Точилов", "Денис", 60.12, 178.2};
-	h.PrintIfoPerson();
-
-	h = { "Точилова", "Александра", 58, 170.6, female };
-	h.PrintIfoPerson();
+	
+	GeneratedHuman();
 
 	return 0;
 }
 
 // Функция для установки языка консоли
-int langConsole(int temp) {
-	SetConsoleCP(temp);
-	SetConsoleOutputCP(temp);
-	return temp;
+int langConsole(int codePage) {
+	SetConsoleCP(codePage);
+	SetConsoleOutputCP(codePage);
+	return codePage;
+}
+
+void GeneratedHuman() {
+	srand(time(0));
+	GenderType gender = rand() % 2 ? male : female;
+	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "a",
+		name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];
+	double weight = rand() % 40 + 140,
+		height = rand() % 40 + 80;
+	Human h{ surname, name, weight, height, gender };
+	h.PrintIfoPerson();
 }

@@ -1,0 +1,104 @@
+﻿// Подключение библиотеки iostream для ввода/вывода данных
+#include <iostream>
+// Подключение библиотеки sstream для работы со строками
+#include <sstream>
+// Подключение библиотеки ctime для работы с датой и временем
+#include <ctime> 
+// Подключение библиотеки Windows.h для использования функций Windows
+#include <Windows.h>
+// Использование пространства имен std
+using namespace std;
+
+// Прототип Объявление функции для установки языка консоли
+int langConsole(int);
+
+// Массив имен мужчин
+string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
+
+// Массив имен женщин
+string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" }; 
+
+// Массив фамилий мужчин
+string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" }; 
+
+// Определение перечисления типов пола
+enum GenderType{male, female, totalGender};
+
+// Массив строк, представляющих типы пола
+string GenderString[2] = { "Мужчина", "Женщина" };
+
+// Определение структуры Human
+struct Human {
+	// Определение переменных структуры
+	string mSurname { "" }; // Фамилия члена структуры
+	string mName{ "" };		// Имя члена структуры
+	double mWeight { 0.0 }; // Вес члена структуры
+	double mHeight{ 0.0 };	// Рост члена структуры
+	GenderType mGender{ };	// Пол члена структуры, по умолчанию мужской
+
+	// Определение методов-getter для чтения значений переменных
+	string Surname() const { return mSurname; }
+	string Name() const { return mName; }
+	double Weight() const { return mWeight; }
+	double Height() const { return mHeight; }
+	GenderType Gender() const { return mGender; }
+
+	/// Определение методов-setter для установки значений переменных
+	string Surname(string value) { return mSurname = value; }
+	string Name(string value) { return mName = value; }
+	double Weight(double value) { return mWeight = value; }
+	double Height(double value) { return mHeight = value; }
+	GenderType Gender(GenderType value) { return mGender = value; }
+
+	// Методы для проверки пола человека
+	bool IsMale() const { return mGender == male; } // Проверяет, является ли человек мужчиной
+	bool IsFemale() const { return mGender == female; } // Проверяет, является ли человек женщиной
+
+   // Метод для преобразования числа с плавающей точкой в строку
+	string ValueString(double value) const {
+		ostringstream ss;	// Создание объекта ostringstream
+		ss << value;		// Запись числа в поток
+		return ss.str();	// Возвращение строкового представления числа
+	}
+
+	// Метод для получения полной информации о человеке
+	string GetInfoPerson() const {
+		// Возвращает информацию о человеке в виде строки
+		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см | Пол: " + GenderString[Gender()] + "\n";
+	}
+
+	// Выводит информацию о человеке в консоль
+	void PrintIfoPerson() const {
+		cout << GetInfoPerson();
+	}
+} h; // Объект структуры Human
+
+// Главная функция программы
+int main()
+{
+	// Установка кодировки страницы консоли
+	langConsole(1251);
+	
+	GeneratedHuman(); // Генерация случайного человека
+
+	return 0;
+}
+
+// Функция для установки языка консоли
+int langConsole(int codePage) {
+	SetConsoleCP(codePage);
+	SetConsoleOutputCP(codePage);
+	return codePage;
+}
+
+// Функция для генерации случайного человека
+void GeneratedHuman() { 
+	srand(time(0)); // Инициализация генератора случайных чисел текущим временем
+	GenderType gender = rand() % 2 ? male : female;  // Генерация случайного пола
+	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "a",  // Генерация случайной фамилии в зависимости от пола
+	    name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];  // Генерация случайного имени в зависимости от пола
+	double weight = rand() % 40 + 140,  // Генерация случайного веса
+		height = rand() % 40 + 80;  // Генерация случайного роста
+	Human h{ surname, name, weight, height, gender };  // Создание нового объекта Human с сгенерированными данными
+	h.PrintIfoPerson();  // Вывод информации о сгенерированном человеке
+}
