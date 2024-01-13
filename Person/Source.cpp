@@ -1,6 +1,4 @@
-﻿// Person.cpp
-
-#include <iostream>
+﻿#include <iostream>
 #include <sstream>
 #include <ctime>
 #include <vector>
@@ -16,31 +14,27 @@ enum GenderType{
 string GenderString[totalGender] = { "Мужчина", "Женщина" };
 
 struct Human {
-	string mSurname { "" }; // member surname
-	string mName{ "" };		// member name
-	double mWeight { 0.0 }; // member weight
-	double mHeight{ 0.0 };  // member height
-	GenderType mGender{ }; // member gender, по умолчанию male
+	string mSurname { "" };
+	string mName{ "" };
+	double mWeight { 0.0 };
+	double mHeight{ 0.0 };
+	GenderType mGender{ };
 
-	// Getter - возвращает значения приватных переменных
 	string Surname() const { return mSurname; }
 	string Name() const { return mName; }
 	double Weight() const { return mWeight; }
 	double Height() const { return mHeight; }
 	GenderType Gender() const { return mGender; }
 
-	// Setter - устанавливает значения этих приватных переменных
 	void Surname(string value) { mSurname = value; }
 	void Name(string value) { mName = value; }
-	double Weight(double value) { return mWeight = value; }
-	double Height(double value) { return mHeight = value; }
-	GenderType Gender(GenderType value) { return mGender = value; }
+	void Weight(double value) { mWeight = value; }
+	void Height(double value) { mHeight = value; }
+	void Gender(GenderType value) { mGender = value; }
 
-	// Условные функции для проверки пола:
 	bool IsMale() const { return mGender == male; }
 	bool IsFemale() const { return mGender == female; }
 
-	// Метод для преобразования числа с плавающей точкой в строку
 	string ValueString(double value) const {
 		ostringstream ss;
 		ss << value;
@@ -56,12 +50,10 @@ struct Human {
 	}
 } h;
 
-
 string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
 string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
 string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
 
-// Прототипы
 int langConsole(int);
 int getValidInteger(int);
 Human GeneratedHuman();
@@ -97,7 +89,6 @@ int main()
 	return 0;
 }
 
-// Функция для установки языка консоли
 int langConsole(int codePage) {
 	SetConsoleCP(codePage);
 	SetConsoleOutputCP(codePage);
@@ -116,7 +107,7 @@ int getValidInteger(int n) {
 }
 
 Human GeneratedHuman() {
-	GenderType gender = rand() % 2 ? male : female;
+	GenderType gender = rand() % 2 ? female : male;
 	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "а";
 	string name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];
 	double weight = rand() % 160 + 40;
@@ -127,33 +118,29 @@ Human GeneratedHuman() {
 
 void fillHumanArray(vector<Human>& humans, int size)
 {
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++)
 		humans.push_back(GeneratedHuman());
-	}
 }
 
 double averageWeight(vector<Human>& humans) {
 	double avgWeight = 0;
 	for (Human human : humans)
-	{
 		avgWeight += human.Weight();
-	}
+
 	avgWeight /= humans.size();
 	return avgWeight;
 }
 
-double averageHeight(vector<Human>& humans)
-{
+double averageHeight(vector<Human>& humans) {
 	double avgHeight = 0;
-	for (Human human : humans) {
+	for (Human human : humans)
 		avgHeight += human.Height();
-	}
+
 	avgHeight /= humans.size();
 	return avgHeight;
 }
 
-void printHumanAndAvg(vector<Human>& humans, double avgWeight, double avgHeight)
-{
+void printHumanAndAvg(vector<Human>& humans, double avgWeight, double avgHeight) {
 	int index = 1;
 	for (Human human : humans) {
 		cout << "[" << index << "] " << human.GetInfoPerson() << endl;
@@ -163,7 +150,6 @@ void printHumanAndAvg(vector<Human>& humans, double avgWeight, double avgHeight)
 	cout << "Средний рост: " << avgHeight << " см.\n\n";
 }
 
-// Функция для сортировки массива по весу
 void sortByHeight(vector<Human>& humans) {
 	for (size_t i = 0; i < humans.size() - 1; i++) {
 		for (size_t j = 0; j < humans.size() - i - 1; j++) {
@@ -174,7 +160,6 @@ void sortByHeight(vector<Human>& humans) {
 	}
 }
 
-// Функция для сортировки массива по росту
 void sortByWeight(vector<Human>& humans) {
 	for (size_t i = 0; i < humans.size() - 1; i++) {
 		for (size_t j = 0; j < humans.size() - i - 1; j++) {
@@ -185,7 +170,6 @@ void sortByWeight(vector<Human>& humans) {
 	}
 }
 
-// Функция для печати отсортированного списка людей
 void printHumanSort(vector<Human>& humans) {
 	int index = 1;
 	for (Human human : humans){
