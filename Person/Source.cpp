@@ -7,10 +7,6 @@
 #include <Windows.h>
 using namespace std;
 
-string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
-string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
-string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
-
 enum GenderType{
 	male, 
 	female,
@@ -34,18 +30,18 @@ struct Human {
 	GenderType Gender() const { return mGender; }
 
 	// Setter - устанавливает значения этих приватных переменных
-	string Surname(string value) { return mSurname = value; }
-	string Name(string value) { return mName = value; }
+	void Surname(string value) { mSurname = value; }
+	void Name(string value) { mName = value; }
 	double Weight(double value) { return mWeight = value; }
 	double Height(double value) { return mHeight = value; }
 	GenderType Gender(GenderType value) { return mGender = value; }
 
-	// Условные функции
+	// Условные функции для проверки пола:
 	bool IsMale() const { return mGender == male; }
 	bool IsFemale() const { return mGender == female; }
 
 	// Метод для преобразования числа с плавающей точкой в строку
-    string ValueString(double value) const {
+	string ValueString(double value) const {
 		ostringstream ss;
 		ss << value;
 		return ss.str();
@@ -60,24 +56,44 @@ struct Human {
 	}
 } h;
 
+
+string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
+string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
+string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
+
+// Прототипы
 int langConsole(int);
-int Put(int);
+int getValidInteger(int);
 Human GeneratedHuman();
 void fillHumanArray(vector<Human>&, int);
-void printHumanArray(vector<Human>&, double, double);
+
 double averageWeight(vector<Human>&);
 double averageHeight(vector<Human>&);
+void printHumanAndAvg(vector<Human>&, double, double);
+
+void sortByWeight(vector<Human>&);
+void sortByHeight(vector<Human>&);
+void printHumanSort(vector<Human>&);
 
 int main()
 {
 	langConsole(1251);
 	srand(time(0));
-	int n = Put(0);
+	int n = getValidInteger(0);
 	vector<Human> humans;
 	fillHumanArray(humans, n);
+
 	double avgWeight = averageWeight(humans);
 	double avgHeight = averageHeight(humans);
-	printHumanArray(humans, avgWeight, avgHeight);
+	printHumanAndAvg(humans, avgWeight, avgHeight);
+
+	cout << "Cписок всех людей по росту по возрастанию:" << endl;
+	sortByHeight(humans);
+	printHumanSort(humans);
+
+	cout << "\nCписок всех людей по весу по возрастанию:" << endl;
+	sortByWeight(humans);
+	printHumanSort(humans);
 	return 0;
 }
 
@@ -88,64 +104,88 @@ int langConsole(int codePage) {
 	return codePage;
 }
 
-int Put(int n) {
+int getValidInteger(int n) {
 	do {
 		cout << "Введите целое число от 10 до 100: ";
 		cin >> n;
+		if (n < 10 || n > 100) {
+			cout << "Некорректное значение. " << n << endl;
+		}
 	} while (n < 10 || n > 100);
 	return n;
 }
 
 Human GeneratedHuman() {
-	GenderType gender = rand() % totalGender ? male : female;
-	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "a";
+	GenderType gender = rand() % 2 ? male : female;
+	string surname = gender == male ? MaleSurnames[rand() % 10] : MaleSurnames[rand() % 10] + "а";
 	string name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];
 	double weight = rand() % 160 + 40;
 	double height = rand() % 100 + 110;
-	Human hGen{ surname, name, weight = , height, gender };
-	return hGen;
+	Human h{ surname, name, weight, height, gender };
+	return h;
 }
 
-void fillHumanArray(vector<Human>& humanArray, int size)
+void fillHumanArray(vector<Human>& humans, int size)
 {
 	for (int i = 0; i < size; i++) {
-		humanArray.push_back(GeneratedHuman());
+		humans.push_back(GeneratedHuman());
 	}
 }
 
-void printHumanArray(vector<Human>& humanArray, double avgWeight, double avgHeight)
-{
-	for (Human human : humanArray)
-	{
-		cout << human.GetInfoPerson() << endl;
-	}
-	cout << "\nСредний вес: " << avgWeight << " кг.\n";
-	cout << "Средний рост: " << avgHeight << " см.\n";
-}
-
-double averageWeight(vector<Human>& humanArray) {
-	if (humanArray.empty()) {
-		return 0.0;
-	}
+double averageWeight(vector<Human>& humans) {
 	double avgWeight = 0;
-	for (Human human : humanArray)
+	for (Human human : humans)
 	{
 		avgWeight += human.Weight();
 	}
-	avgWeight /= humanArray.size();
+	avgWeight /= humans.size();
 	return avgWeight;
 }
 
-double averageHeight(vector<Human>& humanArray)
+double averageHeight(vector<Human>& humans)
 {
-	if (humanArray.empty()) {
-		return 0.0;
-	}
 	double avgHeight = 0;
-	for (Human human : humanArray)
-	{
+	for (Human human : humans) {
 		avgHeight += human.Height();
 	}
-	avgHeight /= humanArray.size();
+	avgHeight /= humans.size();
 	return avgHeight;
+}
+
+void printHumanAndAvg(vector<Human>& humans, double avgWeight, double avgHeight)
+{
+	for (Human human : humans) {
+		cout << human.GetInfoPerson() << endl;
+	}
+	cout << "\nСредний вес: " << avgWeight << " кг.\n";
+	cout << "Средний рост: " << avgHeight << " см.\n\n";
+}
+
+// Функция для сортировки массива по весу
+void sortByHeight(vector<Human>& humans) {
+	for (size_t i = 0; i < humans.size() - 1; i++) {
+		for (size_t j = 0; j < humans.size() - i - 1; j++) {
+			if (humans[j].Height() > humans[j + 1].Height()) {
+				swap(humans[j], humans[j + 1]);
+			}
+		}
+	}
+}
+
+// Функция для сортировки массива по росту
+void sortByWeight(vector<Human>& humans) {
+	for (size_t i = 0; i < humans.size() - 1; i++) {
+		for (size_t j = 0; j < humans.size() - i - 1; j++) {
+			if (humans[j].Weight() > humans[j + 1].Weight()) {
+				swap(humans[j], humans[j + 1]);
+			}
+		}
+	}
+}
+
+// Функция для печати отсортированного списка людей
+void printHumanSort(vector<Human>& humans) {
+	for (Human human : humans){
+		cout << human.GetInfoPerson() << endl;
+	}
 }
