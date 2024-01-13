@@ -7,24 +7,34 @@ using namespace std;
 
 int langConsole(int);
 
+enum GenderType{male, female, totalGender};
+string GenderString[2] = { "Мужчина", "Женщина" };
+
 struct Human {
-	string surname { "" };
-	string name{ "" };
-	double weight { 0.0 };
-	double height{ 0.0 };
+	string mSurname { "" }; // member surname
+	string mName{ "" };		// member name
+	double mWeight { 0.0 }; // member weight
+	double mHeight{ 0.0 };  // member height
+	GenderType mGender{ }; // member gender, по умолчанию male
 
 	// Getter - возвращает значения приватных переменных
-	string Surname() const { return surname; }
-	string Name() const { return name; }
-	double Weight() const { return weight; }
-	double Height() const { return height; }
+	string Surname() const { return mSurname; }
+	string Name() const { return mName; }
+	double Weight() const { return mWeight; }
+	double Height() const { return mHeight; }
+	GenderType Gender() const { return mGender; }
 
 	// Setter - устанавливает значения этих приватных переменных
-	string Surname(string value) { return surname = value; }
-	string Name(string value) { return name = value; }
-	double Weight(double value) { return weight = value; }
-	double Height(double value) { return height = value; }
-	
+	string Surname(string value) { return mSurname = value; }
+	string Name(string value) { return mName = value; }
+	double Weight(double value) { return mWeight = value; }
+	double Height(double value) { return mHeight = value; }
+	GenderType Gender(GenderType value) { return mGender = value; }
+
+	// Условные функции
+	bool IsMale() const { return mGender == male; }
+	bool IsFemale() const { return mGender == female; }
+
 	// Метод для преобразования числа с плавающей точкой в строку
     string ValueString(double value) const {
 		ostringstream ss;
@@ -33,7 +43,7 @@ struct Human {
 	}
 
 	string GetInfoPerson() const {
-		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см";
+		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см | Пол: " + GenderString[Gender()] + "\n";
 	}
 
 	void PrintIfoPerson() const {
@@ -45,7 +55,10 @@ int main()
 {
 	langConsole(1251);
 
-	h = { "Точилов", "Денис", 60.12, 178.2 };
+	h = { "Точилов", "Денис", 60.12, 178.2};
+	h.PrintIfoPerson();
+
+	h = { "Точилова", "Александра", 58, 170.6, female };
 	h.PrintIfoPerson();
 
 	return 0;

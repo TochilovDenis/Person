@@ -32,5 +32,8 @@
     <Text Include="Задание.txt">
       <Filter>Задание</Filter>
     </Text>
+    <Text Include="Задача 2.txt">
+      <Filter>Комментарии</Filter>
+    </Text>
   </ItemGroup>
 </Project>
