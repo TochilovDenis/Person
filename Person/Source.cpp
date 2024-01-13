@@ -154,8 +154,10 @@ double averageHeight(vector<Human>& humans)
 
 void printHumanAndAvg(vector<Human>& humans, double avgWeight, double avgHeight)
 {
+	int index = 1;
 	for (Human human : humans) {
-		cout << human.GetInfoPerson() << endl;
+		cout << "[" << index << "] " << human.GetInfoPerson() << endl;
+		index++;
 	}
 	cout << "\nСредний вес: " << avgWeight << " кг.\n";
 	cout << "Средний рост: " << avgHeight << " см.\n\n";
@@ -185,7 +187,9 @@ void sortByWeight(vector<Human>& humans) {
 
 // Функция для печати отсортированного списка людей
 void printHumanSort(vector<Human>& humans) {
+	int index = 1;
 	for (Human human : humans){
-		cout << human.GetInfoPerson() << endl;
+		cout << "[" << index << "] " << human.GetInfoPerson() << endl;
+		index++;
 	}
 }
