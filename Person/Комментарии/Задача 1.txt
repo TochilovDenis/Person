@@ -1,41 +1,49 @@
-﻿// Person.cpp
-
+﻿// Подключение библиотеки iostream для ввода/вывода данных
 #include <iostream>
+// Подключение библиотеки sstream для работы со строками
 #include <sstream>
+// Подключение библиотеки Windows.h для использования функций Windows
 #include <Windows.h>
+// Использование пространства имен std
 using namespace std;
 
+// Прототип объявлении функции langConsole
 int langConsole(int);
 
+// Определение структуры Human
 struct Human {
+	// Определение переменных структуры
 	string surname { "" };
 	string name{ "" };
 	double weight { 0.0 };
 	double height{ 0.0 };
 
-	// Getter - возвращает значения приватных переменных
+	// Определение методов-getter для чтения значений переменных
 	string Surname() const { return surname; }
 	string Name() const { return name; }
 	double Weight() const { return weight; }
 	double Height() const { return height; }
 
-	// Setter - устанавливает значения этих приватных переменных
+	// Определение методов-setter для установки значений переменных
 	string Surname(string value) { return surname = value; }
 	string Name(string value) { return name = value; }
 	double Weight(double value) { return weight = value; }
 	double Height(double value) { return height = value; }
 	
+
 	// Метод для преобразования числа с плавающей точкой в строку
-    string ValueString(double value) const {
+	string ValueString(double value) const {
 		ostringstream ss;
 		ss << value;
 		return ss.str();
 	}
 
+    // Метод для получения информации о человеке в виде строки
 	string GetInfoPerson() const {
 		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см";
 	}
 
+	// Метод для печати информации о человеке
 	void PrintIfoPerson() const {
 		cout << GetInfoPerson();
 	}
@@ -43,9 +51,11 @@ struct Human {
 
 int main()
 {
+    // Установка языка консоли
 	langConsole(1251);
-
+	// Инициализация объекта Human
 	h = { "Точилов", "Денис", 60.12, 178.2 };
+	// Печать информации о человеке
 	h.PrintIfoPerson();
 
 	return 0;

@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Комментарии">
+      <UniqueIdentifier>{bd804c0f-b313-41f0-9591-03d7128ad4a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Задание">
+      <UniqueIdentifier>{376e3387-1d1c-430a-be40-cbc559d1509b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -20,6 +26,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Задание.txt" />
+    <Text Include="Задача 1.txt">
+      <Filter>Комментарии</Filter>
+    </Text>
+    <Text Include="Задание.txt">
+      <Filter>Задание</Filter>
+    </Text>
   </ItemGroup>
 </Project>
