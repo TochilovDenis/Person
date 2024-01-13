@@ -1,0 +1,86 @@
+﻿// Подключение библиотеки iostream для ввода/вывода данных
+#include <iostream>
+// Подключение библиотеки sstream для работы со строками
+#include <sstream>
+// Подключение библиотеки Windows.h для использования функций Windows
+#include <Windows.h>
+// Использование пространства имен std
+using namespace std;
+
+// Прототип объявлении функции langConsole
+int langConsole(int);
+
+// Определение перечисления GenderType
+enum GenderType{male, female, totalGender};
+
+// Массив строк, представляющих типы пола
+string GenderString[2] = { "Мужчина", "Женщина" };
+
+// Определение структуры Human
+struct Human {
+	// Определение переменных структуры
+	string mSurname { "" }; 
+	string mName{ "" };	
+	double mWeight { 0.0 }; 
+	double mHeight{ 0.0 }; 
+	GenderType mGender{ };
+
+	// Определение методов-getter для чтения значений переменных
+	string Surname() const { return mSurname; }
+	string Name() const { return mName; }
+	double Weight() const { return mWeight; }
+	double Height() const { return mHeight; }
+	GenderType Gender() const { return mGender; }
+
+	/// Определение методов-setter для установки значений переменных
+	string Surname(string value) { return mSurname = value; }
+	string Name(string value) { return mName = value; }
+	double Weight(double value) { return mWeight = value; }
+	double Height(double value) { return mHeight = value; }
+	GenderType Gender(GenderType value) { return mGender = value; }
+
+	// Методы для проверки пола человека
+	bool IsMale() const { return mGender == male; }
+	bool IsFemale() const { return mGender == female; }
+
+   // Метод для преобразования числа с плавающей точкой в строку
+	string ValueString(double value) const {
+		ostringstream ss;
+		ss << value;
+		return ss.str();
+	}
+
+	// Метод для получения полной информации о человеке
+	string GetInfoPerson() const {
+		return Surname() + " " + Name() + " | Вес: " + ValueString(Weight()) + " кг | Рост: " + ValueString(Height()) + " см | Пол: " + GenderString[Gender()] + "\n";
+	}
+
+	// Метод для вывода информации о человеке на экран
+	void PrintIfoPerson() const {
+		cout << GetInfoPerson();
+	}
+} h;
+
+// Главная функция программы
+int main()
+{
+	// Установка кодировки консоли
+	langConsole(1251);
+
+	// Заполнение информацией о первом человеке и инициализация объекта Human
+	h = { "Точилов", "Денис", 60.12, 178.2};
+	h.PrintIfoPerson();
+
+	// Заполнение информацией о втором человеке и инициализация объекта Human
+	h = { "Точилова", "Александра", 58, 170.6, female };
+	h.PrintIfoPerson();
+
+	return 0;
+}
+
+// Функция для установки языка консоли
+int langConsole(int temp) {
+	SetConsoleCP(temp);
+	SetConsoleOutputCP(temp);
+	return temp;
+}
