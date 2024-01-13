@@ -131,10 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Задание.txt" />
-    <Text Include="Задача 1.txt" />
+    <Text Include="Комментарии\Задача 1.txt" />
     <Text Include="Комментарии\Задача 2.txt" />
     <Text Include="Комментарии\Задача 3.txt" />
     <Text Include="Комментарии\Задача 4.txt" />
+    <Text Include="Комментарии\Задача 5.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

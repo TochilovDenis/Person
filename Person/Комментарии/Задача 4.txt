@@ -26,9 +26,9 @@ string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов"
 
 // Объявление перечисления для определения пола человека
 enum GenderType{
-	male, // Мужчина
-	female, // Женщина
-	totalGender // Количество пола
+	male,		// Мужчина
+	female,		// Женщина
+	totalGender // Общее количество полов
 };
 
 // Объявление массива строк для обозначения пола
@@ -93,7 +93,11 @@ Human GeneratedHuman();
 // Объявление функции для заполнения вектора случайно сгенерированными объектами Human
 void fillHumanArray(vector<Human>& , int);
 // Объявление функции для печати информации о всех объектах Human в векторе
-void printHumanArray(vector<Human>& humanArray);
+void printHumanArray(vector<Human>&, double, double);
+// Объявление функции для вычисления среднего веса всех объектов Human в векторе
+double averageWeight(vector<Human>&);
+// Объявление функции для вычисления среднего роста всех объектов Human в векторе
+double averageHeight(vector<Human>&);
 
 
 int main()
@@ -112,9 +116,11 @@ int main()
 	// Заполнение вектора случайными людьми
 	fillHumanArray(humans, n);
 
-	// Вывод информации о людях
-	printHumanArray(humans);
-
+	// Вывод информации о людях, среднего веса и роста 
+	double avgWeight = averageWeight(humans);
+	double avgHeight = averageHeight(humans);
+	printHumanArray(humans, avgWeight, avgHeight);
+	
 	return 0;
 }
 
@@ -166,7 +172,7 @@ Human GeneratedHuman() {
 // Реализация функции для заполнения вектора случайно сгенерированными объектами Human.
 void fillHumanArray(vector<Human>& humanArray, int size)
 {
-	// Цикл от 0 до size (не включая size
+	// Цикл от 0 до size (не включая size)
 	for (int i = 0; i < size; i++) {
 		// Добавляет в конец вектора новый элемент, который является результатом вызова функции GeneratedHuman()
 	    // Этот новый элемент будет случайным объектом типа Human
@@ -177,9 +183,48 @@ void fillHumanArray(vector<Human>& humanArray, int size)
 // Реализация функции для печати информации о всех объектах Human в векторе
 void printHumanArray(vector<Human>& humanArray)
 {
-	// Цикл по всем элементам вектора
+	// Проходим по каждому объекту Human в векторе
 	for (Human human : humanArray) {
 	   // Выводит информацию о человеке, полученную с помощью метода GetInfoPerson()
 	   cout << human.GetInfoPerson() << endl;
 	}
+	// Выводим средний вес и рост
+	cout << "\nСредний вес: " << avgWeight << " кг.\n";
+	cout << "Средний рост: " << avgHeight << " см.\n";
+}
+
+// Реализация функции вычисляет и возвращает средний вес всех объектов Human в векторе
+double averageWeight(vector<Human>& humanArray) {
+	// Проверяем, пуст ли вектор
+	if (humanArray.empty()) {
+		return 0.0; // Если пуст, возвращаем 0.0
+	}
+	double avgWeight = 0;
+	// Проходим по каждому объекту Human в векторе
+	for (Human human : humanArray)
+	{
+		// Добавляем вес текущего объекта Human к общему весу
+		avgWeight += human.Weight();
+	}
+	// Делим общий вес на количество объектов Human, чтобы получить средний вес
+	result /= humanArray.size();
+	return result; // Возвращаем средний вес
+}
+// Реализация функции вычисляет и возвращает среднюю высоту всех объектов Human в переданном векторе
+double averageHeight(vector<Human>& humanArray)
+{
+	  // Проверяем, пуст ли вектор
+	if (humanArray.empty()) {
+		return 0.0; // Если пуст, возвращаем 0.0
+	}
+	double avgHeight = 0;
+	 // Проходим по каждому объекту Human в векторе
+	for (Human human : humanArray)
+	{
+		// Добавляем высоту текущего объекта Human к общей высоте
+		avgHeight += human.Height();
+	}
+	// Делим общую высоту на количество объектов Human, чтобы получить среднюю высоту
+	avgHeight /= humanArray.size();
+	return avgHeight; // Возвращаем среднюю высоту
 }

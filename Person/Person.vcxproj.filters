@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Задача 1.txt">
-      <Filter>Комментарии</Filter>
-    </Text>
     <Text Include="Задание.txt">
       <Filter>Задание</Filter>
     </Text>
@@ -39,6 +36,12 @@
       <Filter>Комментарии</Filter>
     </Text>
     <Text Include="Комментарии\Задача 4.txt">
+      <Filter>Комментарии</Filter>
+    </Text>
+    <Text Include="Комментарии\Задача 1.txt">
+      <Filter>Комментарии</Filter>
+    </Text>
+    <Text Include="Комментарии\Задача 5.txt">
       <Filter>Комментарии</Filter>
     </Text>
   </ItemGroup>

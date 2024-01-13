@@ -7,8 +7,6 @@
 #include <Windows.h>
 using namespace std;
 
-int langConsole(int);
-
 string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
 string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
 string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
@@ -62,20 +60,24 @@ struct Human {
 	}
 } h;
 
+int langConsole(int);
 int Put(int);
 Human GeneratedHuman();
-void fillHumanArray(vector<Human>& , int);
-void printHumanArray(vector<Human>& humanArray);
+void fillHumanArray(vector<Human>&, int);
+void printHumanArray(vector<Human>&, double, double);
+double averageWeight(vector<Human>&);
+double averageHeight(vector<Human>&);
 
 int main()
 {
-	srand(time(0));
 	langConsole(1251);
+	srand(time(0));
 	int n = Put(0);
 	vector<Human> humans;
 	fillHumanArray(humans, n);
-	printHumanArray(humans);
-
+	double avgWeight = averageWeight(humans);
+	double avgHeight = averageHeight(humans);
+	printHumanArray(humans, avgWeight, avgHeight);
 	return 0;
 }
 
@@ -100,7 +102,7 @@ Human GeneratedHuman() {
 	string name = gender == male ? MaleNames[rand() % 5] : FemaleNames[rand() % 5];
 	double weight = rand() % 160 + 40;
 	double height = rand() % 100 + 110;
-	Human hGen{ surname, name, weight, height, gender };
+	Human hGen{ surname, name, weight = , height, gender };
 	return hGen;
 }
 
@@ -111,11 +113,39 @@ void fillHumanArray(vector<Human>& humanArray, int size)
 	}
 }
 
-void printHumanArray(vector<Human>& humanArray)
+void printHumanArray(vector<Human>& humanArray, double avgWeight, double avgHeight)
 {
 	for (Human human : humanArray)
 	{
 		cout << human.GetInfoPerson() << endl;
 	}
+	cout << "\nСредний вес: " << avgWeight << " кг.\n";
+	cout << "Средний рост: " << avgHeight << " см.\n";
 }
 
+double averageWeight(vector<Human>& humanArray) {
+	if (humanArray.empty()) {
+		return 0.0;
+	}
+	double avgWeight = 0;
+	for (Human human : humanArray)
+	{
+		avgWeight += human.Weight();
+	}
+	avgWeight /= humanArray.size();
+	return avgWeight;
+}
+
+double averageHeight(vector<Human>& humanArray)
+{
+	if (humanArray.empty()) {
+		return 0.0;
+	}
+	double avgHeight = 0;
+	for (Human human : humanArray)
+	{
+		avgHeight += human.Height();
+	}
+	avgHeight /= humanArray.size();
+	return avgHeight;
+}
