@@ -48,13 +48,13 @@ struct Human {
 	void PrintInfoPerson() const {
 		cout << GetInfoPerson();
 	}
-} h;
+};
 
 string MaleNames[5] = { "Александр", "Михаил", "Максим", "Артём", "Лев" };
 string FemaleNames[5] = { "Софья", "Мария", "Ева", "Виктория", "Анна" };
 string MaleSurnames[10] = { "Иванов", "Смирнов", "Кузнецов", "Попов", "Соколов", "Лебедев", "Козлов", "Новиков", "Морозов", "Петров" };
 
-int langConsole(int);
+int ConsoleSetup(int);
 int getValidInteger(int);
 Human GeneratedHuman();
 void fillHumanArray(vector<Human>&, int);
@@ -69,7 +69,8 @@ void printHumanSort(vector<Human>&);
 
 int main()
 {
-	langConsole(1251);
+
+	ConsoleSetup(1251);
 	srand(time(0));
 	int n = getValidInteger(0);
 	vector<Human> humans;
@@ -89,10 +90,10 @@ int main()
 	return 0;
 }
 
-int langConsole(int codePage) {
-	SetConsoleCP(codePage);
-	SetConsoleOutputCP(codePage);
-	return codePage;
+int ConsoleSetup(int mode) {
+	SetConsoleCP(mode);
+	SetConsoleOutputCP(mode);
+	return mode;
 }
 
 int getValidInteger(int n) {
